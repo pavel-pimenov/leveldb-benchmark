@@ -1,3 +1,4 @@
+rm leveldb-clone
 astyle leveldb-clone.cpp
 rm *.cpp.orig
 g++ -std=c++11 -static -O0 -lstdc++ -o leveldb-clone leveldb-clone.cpp \
