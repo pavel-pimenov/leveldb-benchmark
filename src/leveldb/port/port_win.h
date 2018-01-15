@@ -31,20 +31,20 @@
 #ifndef STORAGE_LEVELDB_PORT_PORT_WIN_H_
 #define STORAGE_LEVELDB_PORT_PORT_WIN_H_
 
-//Windows - MSVC (before Visual Studio 2015)
-#if defined (_MSC_VER) && _MSC_VER < 1900
- // #define snprintf _snprintf
+#ifdef _MSC_VER
+
+#ifndef snprintf
+ #if _MSC_VER < 1900 
+  #define snprintf _snprintf
+ #endif
 #endif
+
 #define close _close
 #define fread_unlocked _fread_nolock
-
 //[+]PPA
 # pragma warning(disable: 4100) // unreferenced formal parameter
-# pragma warning(disable: 4127) // conditional expression is constant
-# pragma warning(disable: 4512) // assignment operator could not be generated
-# pragma warning(disable: 4355) // 'this' : used in base member initializer list
-# pragma warning(disable: 4244) // conversion from 'uint32_t' to 'unsigned char', possible loss of data
 //[~]PPA
+#endif
 
 #include <string>
 #include <stdint.h>
@@ -176,6 +176,9 @@ inline bool Snappy_Uncompress(const char* input, size_t length,
 inline bool GetHeapProfile(void (*func)(void*, const char*, int), void* arg) {
   return false;
 }
+
+bool HasAcceleratedCRC32C();
+uint32_t AcceleratedCRC32C(uint32_t crc, const char* buf, size_t size);
 
 }
 }
