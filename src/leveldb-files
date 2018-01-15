@@ -27,6 +27,7 @@
 .\leveldb\util\histogram.cc
 .\leveldb\util\hash.cc
 .\leveldb\util\filter_policy.cc
+.\leveldb\util\env_win.cc
 .\leveldb\util\env.cc
 .\leveldb\util\crc32c.cc
 .\leveldb\util\comparator.cc
