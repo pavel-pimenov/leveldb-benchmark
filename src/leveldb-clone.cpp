@@ -8,39 +8,39 @@ int main() {
     leveldb::DB* db_old = NULL;
     leveldb::Options options;
     options.create_if_missing = true;
-    const char* name_db_old = "tth-history-old.leveldb";	
+    const char* name_db_old = "tth-history-old.leveldb";
     leveldb::Status status = leveldb::DB::Open(options,name_db_old, &db_old);
     if(!status.ok())
-	{
-	        std::cout << "Error open "<< name_db_old << " message: "<< status.ToString() << std::endl;
-		return -1;
-	}	
+    {
+        std::cout << "Error open "<< name_db_old << " message: "<< status.ToString() << std::endl;
+        return -1;
+    }
 
     leveldb::DB* db_new = NULL;
     leveldb::Options options_new;
     options_new.create_if_missing = true;
-    const char* name_db_new = "tth-history-new.leveldb";	
+    const char* name_db_new = "tth-history-new.leveldb";
     status = leveldb::DB::Open(options_new,name_db_new, &db_new);
     if(!status.ok())
-	{
-	        std::cout << "Error open "<< name_db_new << " message: "<< status.ToString() << std::endl;
-		return -1;
-	}	
+    {
+        std::cout << "Error open "<< name_db_new << " message: "<< status.ToString() << std::endl;
+        return -1;
+    }
     std::string key;
     std::string value;
-    for(int i = 0; i< 100000; i++)	
-	{
-		char buf[100];
-		snprintf(buf, sizeof(buf), "key-%d-key-key-key-key-key-key-key-key-%d", i, i);
-		key = buf;
-		value = key+"~"+key;
-        	status = db_old->Put(leveldb::WriteOptions(), key,value);
-		if(!status.ok())
-		{
-	        	std::cout << "Error Put " << i << " message: "<< status.ToString() << std::endl;
-		}
-	}
-     std::cout << "Fill  100000 !" << std::endl;
+    for(int i = 0; i< 100000; i++)
+    {
+        char buf[100];
+        snprintf(buf, sizeof(buf), "key-%d-key-key-key-key-key-key-key-key-%d", i, i);
+        key = buf;
+        value = key+"~"+key;
+        status = db_old->Put(leveldb::WriteOptions(), key,value);
+        if(!status.ok())
+        {
+            std::cout << "Error Put " << i << " message: "<< status.ToString() << std::endl;
+        }
+    }
+    std::cout << "Fill  100000 !" << std::endl;
     /*
     //write key1,value1
         std::string key="key";
@@ -77,22 +77,22 @@ int main() {
     leveldb::Iterator* it = db_old->NewIterator(leveldb::ReadOptions());
     int i = 0;
     for (it->SeekToFirst(); it->Valid(); it->Next()) {
-       	status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
-       	++i;
-	if(!status.ok())
-	{
-        	std::cout << "Error Put(new)" << i << " message: "<< status.ToString() << std::endl;
-	}
+        status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
+        ++i;
+        if(!status.ok())
+        {
+            std::cout << "Error Put(new)" << i << " message: "<< status.ToString() << std::endl;
+        }
         if(++count % 1000 == 0)
         {
             std::cout << "count = " << count << std::endl;
         }
     }
     if(!it->status().ok())  // Check for any errors found during the scan
-	{
-	        std::cout << "Error iterator: "<< it->status().ToString() << std::endl;
-		result = -1;
-	}
+    {
+        std::cout << "Error iterator: "<< it->status().ToString() << std::endl;
+        result = -1;
+    }
     delete it;
     std::cout << "Count record = " << count << std::endl;
     delete db_old;
