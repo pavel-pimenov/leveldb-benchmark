@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"runtime"
 	"github.com/syndtr/goleveldb/leveldb"
+	"runtime"
 )
 
 var db *leveldb.DB
