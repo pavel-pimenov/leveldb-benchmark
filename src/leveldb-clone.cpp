@@ -46,24 +46,28 @@ int main() {
     leveldb::DB* db_old = NULL;
     leveldb::Options options;
     options.create_if_missing = true;
+    leveldb::Status status;
     const char* name_db_old = "tth-history-old.leveldb";
-    leveldb::Status status = leveldb::DB::Open(options,name_db_old, &db_old);
-    if(!status.ok())
     {
-        std::cout << "Error open "<< name_db_old << " message: "<< status.ToString() << std::endl;
-        return -1;
+        CElapsedSeconds l_time("Open tth-history-old.leveldb");
+        status = leveldb::DB::Open(options,name_db_old, &db_old);
+        if(!status.ok())
+        {
+            std::cout << "Error open "<< name_db_old << " message: "<< status.ToString() << std::endl;
+            return -1;
+        }
     }
-
     leveldb::DB* db_new = NULL;
     leveldb::Options options_new;
     options_new.create_if_missing = true;
-    const char* name_db_new = "tth-history-new.leveldb";
+    const char* name_db_new = "tth-history.leveldb";
     status = leveldb::DB::Open(options_new,name_db_new, &db_new);
     if(!status.ok())
     {
         std::cout << "Error open "<< name_db_new << " message: "<< status.ToString() << std::endl;
         return -1;
     }
+#ifdef CHECK_LEVEL_DB_FILL_TEST
     {
         std::string key;
         std::string value;
@@ -84,8 +88,9 @@ int main() {
         }
         l_time.stop();
     }
+#endif
     {
-        CElapsedSeconds l_time("Clone 1000000 record");
+        CElapsedSeconds l_time("Clone records");
         leveldb::Iterator* it = db_old->NewIterator(leveldb::ReadOptions());
         std::string value;
         for (it->SeekToFirst(); it->Valid(); it->Next()) {
@@ -99,6 +104,7 @@ int main() {
                     std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
                 }
             }
+#ifdef CHECK_LEVEL_DB_UPDATE
             else if(status.ok())
             {
                 if(value != it->value())
@@ -106,6 +112,7 @@ int main() {
                     std::cout << "Error value != it->value() key = " << it->key().ToString() << " pos = " <<  l_time.pos() << std::endl;
                 }
             }
+#endif
         }
         if(!it->status().ok())  // Check for any errors found during the scan
         {
