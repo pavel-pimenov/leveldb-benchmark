@@ -1,4 +1,4 @@
-@del *.exe
+@del lveldb-clone.exe
 @del *.obj
 
 @call "%VS140COMNTOOLS%\..\..\VC\bin\vcvars32.bat"

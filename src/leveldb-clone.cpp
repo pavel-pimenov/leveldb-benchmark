@@ -12,8 +12,9 @@ class CElapsedSeconds
 public:
     std::chrono::time_point<std::chrono::system_clock> m_start;
     std::string m_caption;
+    unsigned m_pos;
 public:
-    CElapsedSeconds(const std::string& p_caption) : m_caption(p_caption)
+    CElapsedSeconds(const std::string& p_caption) : m_caption(p_caption), m_pos(0)
     {
         m_start = std::chrono::system_clock::now();
     }
@@ -21,6 +22,21 @@ public:
     {
         const auto l_end = std::chrono::system_clock::now();
         std::cout << m_caption << "[ duration: " << std::chrono::duration <double, std::milli> (l_end - m_start).count() << " ms ]" << std::endl;
+    }
+    unsigned pos() const
+    {
+        return m_pos;
+    }
+    void stop() const
+    {
+        std::cout << "Stop. count = " << m_pos << std::endl;
+    }
+    void step()
+    {
+        if(++m_pos % 100000 == 0)
+        {
+            std::cout << "count = " << m_pos << std::endl;
+        }
     }
 };
 
@@ -51,6 +67,7 @@ int main() {
     std::string value;
     {
         CElapsedSeconds l_time("Create test leveldb - 1000000 record");
+        unsigned count = 0;
         for(int i = 0; i< 1000000; i++)
         {
             char buf[100];
@@ -62,7 +79,9 @@ int main() {
             {
                 std::cout << "Error Put " << i << " message: "<< status.ToString() << std::endl;
             }
+            l_time.step();
         }
+        l_time.stop();
     }
     /*
     //write key1,value1
@@ -98,19 +117,13 @@ int main() {
     */
     {
         CElapsedSeconds l_time("Clone 1000000 record");
-        unsigned count = 0;
         leveldb::Iterator* it = db_old->NewIterator(leveldb::ReadOptions());
-        int i = 0;
         for (it->SeekToFirst(); it->Valid(); it->Next()) {
             status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
-            ++i;
+            l_time.step();
             if(!status.ok())
             {
-                std::cout << "Error Put(new)" << i << " message: "<< status.ToString() << std::endl;
-            }
-            if(++count % 100000 == 0)
-            {
-                std::cout << "count = " << count << std::endl;
+                std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
             }
         }
         if(!it->status().ok())  // Check for any errors found during the scan
@@ -119,7 +132,7 @@ int main() {
             result = -1;
         }
         delete it;
-        std::cout << "Count record = " << count << std::endl;
+        l_time.stop();
     }
     delete db_old;
     delete db_new;
