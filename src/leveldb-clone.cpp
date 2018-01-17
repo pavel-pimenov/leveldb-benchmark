@@ -16,12 +16,13 @@ public:
 public:
     CElapsedSeconds(const std::string& p_caption) : m_caption(p_caption), m_pos(0)
     {
+        std::cout << "[Start] " << m_caption << std::endl;
         m_start = std::chrono::system_clock::now();
     }
     ~CElapsedSeconds()
     {
         const auto l_end = std::chrono::system_clock::now();
-        std::cout << m_caption << "[ duration: " << std::chrono::duration <double, std::milli> (l_end - m_start).count() << " ms ]" << std::endl;
+        std::cout << "[Stop] " <<m_caption << "[ duration: " << std::chrono::duration <double, std::milli> (l_end - m_start).count() << " ms ]" << std::endl;
     }
     unsigned pos() const
     {
@@ -63,9 +64,9 @@ int main() {
         std::cout << "Error open "<< name_db_new << " message: "<< status.ToString() << std::endl;
         return -1;
     }
-    std::string key;
-    std::string value;
     {
+        std::string key;
+        std::string value;
         CElapsedSeconds l_time("Create test leveldb - 1000000 record");
         unsigned count = 0;
         for(int i = 0; i< 1000000; i++)
@@ -83,47 +84,27 @@ int main() {
         }
         l_time.stop();
     }
-    /*
-    //write key1,value1
-        std::string key="key";
-        std::string value = "value";
-
-        status = db->Put(leveldb::WriteOptions(), key,value);
-        assert(status.ok());
-
-        status = db->Get(leveldb::ReadOptions(), key, &value);
-        assert(status.ok());
-        std::cout<<value<<std::endl;
-        std::string key2 = "key2";
-    */
-//move the value under key to key2
-    /*
-
-        status = db->Put(leveldb::WriteOptions(),key2,value);
-        assert(status.ok());
-        status = db->Delete(leveldb::WriteOptions(), key);
-
-        assert(status.ok());
-
-        status = db->Get(leveldb::ReadOptions(),key2, &value);
-
-        assert(status.ok());
-        std::cout<<key2<<"==="<<value<<std::endl;
-
-        status = db->Get(leveldb::ReadOptions(),key, &value);
-
-        if(!status.ok()) std::cerr <<key<<" error   " << status.ToString()<<std::endl;
-        else std::cout<<key<<"==="<<value<<std::endl;
-    */
     {
         CElapsedSeconds l_time("Clone 1000000 record");
         leveldb::Iterator* it = db_old->NewIterator(leveldb::ReadOptions());
+        std::string value;
         for (it->SeekToFirst(); it->Valid(); it->Next()) {
-            status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
-            l_time.step();
-            if(!status.ok())
+            status = db_new->Get(leveldb::ReadOptions(),it->key(), &value);
+            if(status.IsNotFound())
             {
-                std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
+                status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
+                l_time.step();
+                if(!status.ok())
+                {
+                    std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
+                }
+            }
+            else if(status.ok())
+            {
+                if(value != it->value())
+                {
+                    std::cout << "Error value != it->value() key = " << it->key().ToString() << " pos = " <<  l_time.pos() << std::endl;
+                }
             }
         }
         if(!it->status().ok())  // Check for any errors found during the scan
