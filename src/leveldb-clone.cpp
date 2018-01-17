@@ -41,6 +41,8 @@ public:
     }
 };
 
+#define CHECK_LEVEL_DB_FILL_TEST
+
 int main() {
     int result = 0;
     leveldb::DB* db_old = NULL;
