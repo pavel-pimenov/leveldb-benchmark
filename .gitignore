@@ -3,3 +3,4 @@ leveldb-clone
 *.obj
 *.exe
 tth-history*.leveldb
+/src/*.orig
