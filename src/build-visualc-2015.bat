@@ -1,5 +1,7 @@
 @del leveldb-clone.exe
 @del *.obj
+AStyle.exe leveldb-clone.cpp
+@del *.cpp.orig
 
 @call "%VS140COMNTOOLS%\..\..\VC\bin\vcvars32.bat"
 

@@ -2,5 +2,8 @@ leveldb-clone
 *.rar
 *.obj
 *.exe
+*.suo
+.vs
+*.VC.db
 tth-history*.leveldb
 /src/*.orig
