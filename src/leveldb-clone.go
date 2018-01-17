@@ -4,34 +4,44 @@ import (
 	"fmt"
 	"github.com/syndtr/goleveldb/leveldb"
 	"runtime"
+	"time"
 )
 
-var db *leveldb.DB
-var db2 *leveldb.DB
+var db_old *leveldb.DB
+var db_new *leveldb.DB
 
+func timeTrack(start time.Time, name string) {
+	elapsed := time.Since(start)
+	fmt.Printf("%s duration: %s\n", name, elapsed)
+}
 func printMemStats() {
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
-	fmt.Printf("sys: %d, alloc: %d, idle: %d\n", m.HeapSys,
-		m.HeapAlloc, m.HeapIdle)
+	//	fmt.Printf("sys: %d, alloc: %d, idle: %d\n", m.HeapSys,
+	//		m.HeapAlloc, m.HeapIdle)
 }
 func main() {
+	start := time.Now()
 	var err error
 	printMemStats()
-	db, err := leveldb.OpenFile("tth-history.leveldb", nil)
+	db_old, err := leveldb.OpenFile("tth-history-old.leveldb", nil)
 	if err != nil {
 		panic(err)
 	}
+	timeTrack(start, "open tth-history-old.leveldb")
 	printMemStats()
-	db2, err2 := leveldb.OpenFile("tth-history.leveldb-new", nil)
+	start = time.Now()
+	db_new, err2 := leveldb.OpenFile("tth-history.leveldb", nil)
 	if err2 != nil {
 		panic(err2)
 	}
 	printMemStats()
-	iter := db.NewIterator(nil, nil)
+	timeTrack(start, "open tth-history.leveldb")
+	start = time.Now()
+	iter := db_old.NewIterator(nil, nil)
 	var i = 0
 	for iter.Next() {
-		//err = db2.Put(iter.Key(), iter.Value(), nil)
+		//err = db_new.Put(iter.Key(), iter.Value(), nil)
 		if err != nil {
 			panic(err)
 		}
@@ -44,6 +54,7 @@ func main() {
 	iter.Release()
 	err = iter.Error()
 	fmt.Println("stop level-db count = %d", i)
-	defer db.Close()
-	defer db2.Close()
+	timeTrack(start, "end scan")
+	defer db_old.Close()
+	defer db_new.Close()
 }
