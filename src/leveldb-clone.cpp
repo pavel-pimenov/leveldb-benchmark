@@ -41,7 +41,7 @@ public:
     }
 };
 
-#define CHECK_LEVEL_DB_FILL_TEST
+//#define USE_LEVEL_DB_FILL_TEST
 
 int main() {
     int result = 0;
@@ -69,7 +69,7 @@ int main() {
         std::cout << "Error open "<< name_db_new << " message: "<< status.ToString() << std::endl;
         return -1;
     }
-#ifdef CHECK_LEVEL_DB_FILL_TEST
+#ifdef USE_LEVEL_DB_FILL_TEST
     {
         std::string key;
         std::string value;
@@ -106,7 +106,7 @@ int main() {
                     std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
                 }
             }
-#ifdef CHECK_LEVEL_DB_UPDATE
+#ifdef USE_CHECK_LEVEL_DB_UPDATE
             else if(status.ok())
             {
                 if(value != it->value())
