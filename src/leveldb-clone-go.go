@@ -41,19 +41,19 @@ func main() {
 	iter := db_old.NewIterator(nil, nil)
 	var i = 0
 	for iter.Next() {
-		//err = db_new.Put(iter.Key(), iter.Value(), nil)
+		err = db_new.Put(iter.Key(), iter.Value(), nil)
 		if err != nil {
 			panic(err)
 		}
 		i++
-		if i%10000 == 0 {
+		if i%100000 == 0 {
 			fmt.Printf("copy %d record\n", i)
 			printMemStats()
 		}
 	}
 	iter.Release()
 	err = iter.Error()
-	fmt.Println("stop level-db count = %d", i)
+	fmt.Printf("stop level-db count = %d\n", i)
 	timeTrack(start, "end scan")
 	defer db_old.Close()
 	defer db_new.Close()
