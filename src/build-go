@@ -1,3 +1,4 @@
 rm leveldb-clone
+go get github.com/syndtr/goleveldb/leveldb
 gofmt -w leveldb-clone-go.go
 go build leveldb-clone-go.go
