@@ -1,7 +1,3 @@
-#define WINVER _WIN32_WINNT_WINXP
-#define _WIN32_WINNT _WIN32_WINNT_WINXP
-#define NTDDI_VERSION NTDDI_WINXP
-
 #include <string.h>
 #include "leveldb/db.h"
 #include <iostream>
@@ -41,7 +37,7 @@ public:
     }
 };
 
-//#define USE_LEVEL_DB_FILL_TEST
+#define USE_LEVEL_DB_FILL_TEST
 
 int main() {
     int result = 0;
