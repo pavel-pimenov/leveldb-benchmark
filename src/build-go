@@ -1,0 +1,3 @@
+rm leveldb-clone
+gofmt -w leveldb-clone-go.go
+go build leveldb-clone-go.go
