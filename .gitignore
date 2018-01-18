@@ -29,3 +29,4 @@ tth-history*.leveldb
 /src/build/*.filters
 /src/build/*.sln
 /src/build/CMakeCache.txt
+/src/build/Makefile
