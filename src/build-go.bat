@@ -1,4 +1,4 @@
-@del leveldb-clone.exe
+@del leveldb-clone-go.exe
 @rem go get github.com/syndtr/goleveldb/leveldb
 gofmt -w leveldb-clone-go.go
 SET GOARCH=386
