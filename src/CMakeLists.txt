@@ -19,7 +19,7 @@ endif()
 include_directories(leveldb leveldb/include leveldb/port/win)
 
 if(WIN32 AND MSVC)
-add_executable(leveldb-clone leveldb-clone.cpp 
+add_executable(leveldb-clone-cpp leveldb-clone-cpp.cpp 
 leveldb/db/write_batch.cc 
 leveldb/db/version_set.cc
 leveldb/db/version_edit.cc
@@ -62,7 +62,7 @@ leveldb/util/arena.cc
 
 else()
 
-add_executable(leveldb-clone leveldb-clone.cpp 
+add_executable(leveldb-clone-cpp leveldb-clone-cpp.cpp 
 leveldb/db/write_batch.cc 
 leveldb/db/version_set.cc
 leveldb/db/version_edit.cc
