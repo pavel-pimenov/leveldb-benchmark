@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/syndtr/goleveldb/leveldb"
 	"runtime"
 	"time"
+
+	"github.com/syndtr/goleveldb/leveldb"
 )
 
 var db_old *leveldb.DB
@@ -40,20 +41,32 @@ func main() {
 	start = time.Now()
 	iter := db_old.NewIterator(nil, nil)
 	var i = 0
+	var skip = 0
+	var copy = 0
 	for iter.Next() {
-		err = db_new.Put(iter.Key(), iter.Value(), nil)
+		if i%100000 == 0 {
+			fmt.Printf("step = %d copy %d record skip %d\n", i, copy, skip)
+			printMemStats()
+		}
+		i++
+		var is_exist bool
+		is_exist, err = db_new.Has(iter.Key(), nil)
 		if err != nil {
 			panic(err)
 		}
-		i++
-		if i%100000 == 0 {
-			fmt.Printf("copy %d record\n", i)
-			printMemStats()
+		if is_exist == false {
+			err = db_new.Put(iter.Key(), iter.Value(), nil)
+			if err != nil {
+				panic(err)
+			}
+			copy++
+			continue
 		}
+		skip++
 	}
 	iter.Release()
 	err = iter.Error()
-	fmt.Printf("stop level-db count = %d\n", i)
+	fmt.Printf("stop level-db count = %d copy %d skip = %d\n", i, copy, skip)
 	timeTrack(start, "end scan")
 	defer db_old.Close()
 	defer db_new.Close()
