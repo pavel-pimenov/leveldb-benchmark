@@ -2,15 +2,23 @@ cmake_minimum_required(VERSION 2.8)
 
 project(leveldb-clone)
 
-if(WIN32)
+if(WIN32 AND MSVC)
+  add_definitions(-DOS_WIN)
   add_definitions(-DLEVELDB_PLATFORM_WINDOWS)
-else()
+  add_definitions(-DCOMPILER_MSVC)
+  add_definitions(-DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS)
+  add_definitions(-Dssize_t=ptrdiff_t) #workaround for ssize_t
+elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  add_definitions(-DOS_LINUX)
   add_definitions(-DLEVELDB_PLATFORM_POSIX)
+  add_definitions(-fno-builtin-memcmp)
+else()
+  error("Unknown platform")
 endif()
 
 include_directories(leveldb leveldb/include leveldb/port/win)
 
-if(WIN32)
+if(WIN32 AND MSVC)
 add_executable(leveldb-clone leveldb-clone.cpp 
 leveldb/db/write_batch.cc 
 leveldb/db/version_set.cc
