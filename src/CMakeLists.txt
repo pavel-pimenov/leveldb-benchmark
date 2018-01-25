@@ -6,11 +6,13 @@ if(WIN32 AND MSVC)
   add_definitions(-DOS_WIN)
   add_definitions(-DLEVELDB_PLATFORM_WINDOWS)
   add_definitions(-DCOMPILER_MSVC)
+  add_definitions(-DHAVE_SNAPPY)
   add_definitions(-DWINVER=0x0501 -DWIN32_LEAN_AND_MEAN -DNOMINMAX -D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_WARNINGS)
   add_definitions(-Dssize_t=ptrdiff_t) #workaround for ssize_t
 elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   add_definitions(-DOS_LINUX)
   add_definitions(-DLEVELDB_PLATFORM_POSIX)
+  add_definitions(-DHAVE_SNAPPY)
   add_definitions(-fno-builtin-memcmp)
 else()
   error("Unknown platform")
@@ -58,6 +60,10 @@ leveldb/util/coding.cc
 leveldb/util/cache.cc
 leveldb/util/bloom.cc
 leveldb/util/arena.cc
+snappy/snappy.cc
+snappy/snappy-c.cc
+snappy/snappy-sinksource.cc
+snappy/snappy-stubs-internal.cc
 )
 
 else()
@@ -101,6 +107,10 @@ leveldb/util/coding.cc
 leveldb/util/cache.cc
 leveldb/util/bloom.cc
 leveldb/util/arena.cc
+snappy/snappy.cc
+snappy/snappy-c.cc
+snappy/snappy-sinksource.cc
+snappy/snappy-stubs-internal.cc
 )
 
 endif()

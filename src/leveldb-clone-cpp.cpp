@@ -37,7 +37,7 @@ public:
     }
 };
 
-#define USE_LEVEL_DB_FILL_TEST
+//#define USE_LEVEL_DB_FILL_TEST
 
 int main() {
     int result = 0;

@@ -40,10 +40,17 @@ g++ -std=c++11 -static -O2 -lstdc++ -o leveldb-clone-cpp leveldb-clone-cpp.cpp \
  leveldb/util/bloom.cc \
  leveldb/util/arena.cc \
  leveldb/port/port_posix.cc \
+ snappy/snappy.cc
+ snappy/snappy-c.cc
+ snappy/snappy-sinksource.cc
+ snappy/snappy-stubs-internal.cc
  -I ./leveldb \
  -I ./leveldb/include \
  -I ./leveldb/util \
  -I ./leveldb/table \
  -I ./leveldb/db \
+ -I ./snappy \
  -DLEVELDB_PLATFORM_POSIX \
+ -DHAVE_SNAPPY \
  -ldl -lpthread -lz -lm
+ 
