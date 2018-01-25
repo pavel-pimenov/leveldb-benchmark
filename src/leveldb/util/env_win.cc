@@ -5,10 +5,12 @@
 // project (http://code.google.com/p/leveldbwin/) lists the 'New BSD License'
 // as the license.
 #if defined(LEVELDB_PLATFORM_WINDOWS)
+
 #include <map>
 
-
 #include "leveldb/env.h"
+
+#include <windows.h>
 
 #include "port/port.h"
 #include "leveldb/slice.h"

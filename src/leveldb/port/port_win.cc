@@ -28,11 +28,12 @@
 // SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //
 
-#include "port/port_win.h"
-
 #include <windows.h>
 #include <cassert>
 #include <intrin.h>
+
+#include "port/port_win.h"
+
 
 namespace leveldb {
 namespace port {

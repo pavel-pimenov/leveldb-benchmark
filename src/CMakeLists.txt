@@ -18,7 +18,7 @@ else()
   error("Unknown platform")
 endif()
 
-include_directories(leveldb leveldb/include leveldb/port/win)
+include_directories(leveldb leveldb/include leveldb/port/win snappy)
 
 if(WIN32 AND MSVC)
 add_executable(leveldb-clone-cpp leveldb-clone-cpp.cpp 
