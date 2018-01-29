@@ -1,4 +1,7 @@
 leveldb-clone
+tth-history-old.leveldb
+tth-history-cpp.leveldb
+tth-history-go.leveldb
 *.rar
 *.obj
 *.exe
@@ -13,8 +16,6 @@ leveldb-clone
 *.pdb
 *.opendb
 *.ilk
-tth-history*.leveldb
-tth-history*.leveldb-go
 /src/*.orig
 /src/build/CMakeFiles
 /src/build/Debug
@@ -22,8 +23,6 @@ tth-history*.leveldb-go
 /src/build/MinSizeRel
 /src/build/Release
 /src/build/RelWithDebInfo
-/src/build/tth-history-old.leveldb
-/src/build/tth-history.leveldb
 /src/build/Win32
 /src/build/Report*.vspx
 /src/build/*.vcxproj

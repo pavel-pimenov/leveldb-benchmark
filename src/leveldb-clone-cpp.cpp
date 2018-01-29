@@ -9,8 +9,9 @@ public:
     std::chrono::time_point<std::chrono::system_clock> m_start;
     std::string m_caption;
     unsigned m_pos;
+    unsigned m_skip;
 public:
-    CElapsedSeconds(const std::string& p_caption) : m_caption(p_caption), m_pos(0)
+    CElapsedSeconds(const std::string& p_caption) : m_caption(p_caption), m_pos(0), m_skip(0)
     {
         std::cout << "[Start] " << m_caption << std::endl;
         m_start = std::chrono::system_clock::now();
@@ -28,11 +29,16 @@ public:
     {
         std::cout << "Stop. count = " << m_pos << std::endl;
     }
+
+    void skip()
+    {
+        m_skip++;
+    }
     void step()
     {
         if(++m_pos % 100000 == 0)
         {
-            std::cout << "count = " << m_pos << std::endl;
+            std::cout << "count = " << m_pos << " skip " << m_skip << std::endl;
         }
     }
 };
@@ -44,6 +50,7 @@ int main() {
     leveldb::DB* db_old = NULL;
     leveldb::Options options;
     options.create_if_missing = true;
+    options.compression = leveldb::kNoCompression;
     leveldb::Status status;
     const char* name_db_old = "tth-history-old.leveldb";
     {
@@ -58,7 +65,8 @@ int main() {
     leveldb::DB* db_new = NULL;
     leveldb::Options options_new;
     options_new.create_if_missing = true;
-    const char* name_db_new = "tth-history.leveldb";
+    options_new.compression = leveldb::kNoCompression;
+    const char* name_db_new = "tth-history-cpp.leveldb";
     status = leveldb::DB::Open(options_new,name_db_new, &db_new);
     if(!status.ok())
     {
@@ -104,10 +112,16 @@ int main() {
 #ifdef USE_CHECK_LEVEL_DB_UPDATE
             else if(status.ok())
             {
+                l_time.skip();
                 if(value != it->value())
                 {
                     std::cout << "Error value != it->value() key = " << it->key().ToString() << " pos = " <<  l_time.pos() << std::endl;
                 }
+            }
+#else
+            else if(status.ok())
+            {
+                l_time.skip();
             }
 #endif
             l_time.step();
