@@ -96,7 +96,6 @@ int main() {
             if(status.IsNotFound())
             {
                 status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
-                l_time.step();
                 if(!status.ok())
                 {
                     std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
@@ -111,14 +110,15 @@ int main() {
                 }
             }
 #endif
+            l_time.step();
         }
+        l_time.stop();
         if(!it->status().ok())  // Check for any errors found during the scan
         {
             std::cout << "Error iterator: "<< it->status().ToString() << std::endl;
             result = -1;
         }
         delete it;
-        l_time.stop();
     }
     delete db_old;
     delete db_new;

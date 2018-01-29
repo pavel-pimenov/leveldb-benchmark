@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/syndtr/goleveldb/leveldb"
-	"github.com/syndtr/goleveldb/leveldb/opt"
+	//	"github.com/syndtr/goleveldb/leveldb/opt"
 )
 
 var db_old *leveldb.DB
@@ -36,7 +36,7 @@ func main() {
 	//o := &opt.Options{
 	//	Compression: NoCompression,
 	//}
-	opt.DefaultCompressionType = opt.NoCompression
+	//	opt.DefaultCompressionType = opt.NoCompression
 	db_new, err2 := leveldb.OpenFile("tth-history.leveldb", nil)
 	if err2 != nil {
 		panic(err2)
