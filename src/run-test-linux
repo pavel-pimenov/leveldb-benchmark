@@ -2,6 +2,7 @@
 #git clone https://github.com/pavel-pimenov/leveldb-benchmark.git
 #cd leveldb-benchmark/src
 
+go version
 mkdir ~/go-leveldb
 export GOPATH=~/go-leveldb
 go get github.com/syndtr/goleveldb/leveldb
