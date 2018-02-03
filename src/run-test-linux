@@ -2,6 +2,11 @@
 #git clone https://github.com/pavel-pimenov/leveldb-benchmark.git
 #cd leveldb-benchmark/src
 
+mkdir ~/go-leveldb
+export GOPATH=~/go-leveldb
+go get github.com/syndtr/goleveldb/leveldb
+go get github.com/syndtr/goleveldb/leveldb/opt
+
 rm tth-history.leveldb.zip
 rm -r tth-history.leveldb
 rm -r tth-history-cpp.leveldb
