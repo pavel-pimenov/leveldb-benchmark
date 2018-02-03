@@ -50,11 +50,10 @@ int main() {
     leveldb::DB* db_old = NULL;
     leveldb::Options options;
     options.create_if_missing = true;
-    options.compression = leveldb::kNoCompression;
     leveldb::Status status;
-    const char* name_db_old = "tth-history-old.leveldb";
+    const char* name_db_old = "tth-history.leveldb";
     {
-        CElapsedSeconds l_time("Open tth-history-old.leveldb");
+        CElapsedSeconds l_time("Open tth-history.leveldb");
         status = leveldb::DB::Open(options,name_db_old, &db_old);
         if(!status.ok())
         {
@@ -106,7 +105,7 @@ int main() {
                 status = db_new->Put(leveldb::WriteOptions(), it->key(),it->value());
                 if(!status.ok())
                 {
-                    std::cout << "Error Put(new)" << l_time.pos() << " message: "<< status.ToString() << std::endl;
+                    std::cout << "Error Put " << l_time.pos() << " message: "<< status.ToString() << std::endl;
                 }
             }
 #ifdef USE_CHECK_LEVEL_DB_UPDATE

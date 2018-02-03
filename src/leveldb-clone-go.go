@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"runtime"
-	"time"
-
 	"github.com/syndtr/goleveldb/leveldb"
 	"github.com/syndtr/goleveldb/leveldb/opt"
+	"runtime"
+	"time"
 )
 
 var db_old *leveldb.DB
@@ -26,17 +25,18 @@ func main() {
 	start := time.Now()
 	var err error
 	printMemStats()
-	db_old, err := leveldb.OpenFile("tth-history-old.leveldb", nil)
+	db_old, err := leveldb.OpenFile("tth-history.leveldb", nil)
 	if err != nil {
 		panic(err)
 	}
-	timeTrack(start, "open tth-history-old.leveldb")
+	timeTrack(start, "open tth-history.leveldb")
 	printMemStats()
 	start = time.Now()
 	//	o := &opt.Options{
 	//		Compression: NoCompression,
 	//	}
 	opt.DefaultCompressionType = opt.NoCompression
+	//opt.DefaultCompressionType = opt.SnappyCompression
 	db_new, err2 := leveldb.OpenFile("tth-history-go.leveldb", nil)
 	if err2 != nil {
 		panic(err2)

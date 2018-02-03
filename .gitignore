@@ -1,5 +1,5 @@
 leveldb-clone
-tth-history-old.leveldb
+tth-history.leveldb
 tth-history-cpp.leveldb
 tth-history-go.leveldb
 *.rar
@@ -16,6 +16,8 @@ tth-history-go.leveldb
 *.pdb
 *.opendb
 *.ilk
+*.ldb
+*.zip
 /src/*.orig
 /src/build/CMakeFiles
 /src/build/Debug
