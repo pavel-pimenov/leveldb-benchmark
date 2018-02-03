@@ -18,6 +18,8 @@ tth-history-go.leveldb
 *.ilk
 *.ldb
 *.zip
+leveldb-clone-cpp
+leveldb-clone-go
 /src/*.orig
 /src/build/CMakeFiles
 /src/build/Debug
