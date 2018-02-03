@@ -50,7 +50,7 @@ func main() {
 	var copy = 0
 	for iter.Next() {
 		if i%100000 == 0 {
-			fmt.Printf("step = %d copy %d record skip %d\n", i, copy, skip)
+			fmt.Printf("count =  %d\n", i)
 			printMemStats()
 		}
 		i++
