@@ -1,5 +1,4 @@
 rm leveldb-clone
-astyle leveldb-clone-cpp.cpp
 rm *.cpp.orig
 g++ -std=c++11 -static -O2 -lstdc++ -o leveldb-clone-cpp leveldb-clone-cpp.cpp \
  leveldb/db/write_batch.cc \

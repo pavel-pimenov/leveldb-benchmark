@@ -1,0 +1,7 @@
+rm tth-history.leveldb.zip
+wget -c http://51.254.84.24/leveldb/tth-history.leveldb.zip
+unzip -n tth-history.leveldb.zip
+./build-go
+./build-cpp
+./leveldb-clone-cpp
+./leveldb-clone-go
