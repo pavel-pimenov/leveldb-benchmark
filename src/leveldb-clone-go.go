@@ -49,11 +49,11 @@ func main() {
 	var skip = 0
 	var copy = 0
 	for iter.Next() {
+		i++
 		if i%100000 == 0 {
 			fmt.Printf("count Go =  %d\n", i)
 			printMemStats()
 		}
-		i++
 		var is_exist bool
 		is_exist, err = db_new.Has(iter.Key(), nil)
 		if err != nil {
