@@ -3,6 +3,10 @@
 #cd leveldb-benchmark/src
 
 rm tth-history.leveldb.zip
+rmdir -r tth-history.leveldb
+rmdir -r tth-history-cpp.leveldb
+rmdir -r tth-history-go.leveldb
+
 wget -c http://51.254.84.24/leveldb/tth-history.leveldb.zip
 unzip -n tth-history.leveldb.zip
 ./build-go
