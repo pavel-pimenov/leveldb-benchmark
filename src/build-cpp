@@ -1,4 +1,4 @@
-rm leveldb-clone
+rm leveldb-clone-cpp
 rm *.cpp.orig
 g++ -std=c++11 -static -O2 -lstdc++ -o leveldb-clone-cpp leveldb-clone-cpp.cpp \
  leveldb/db/write_batch.cc \
@@ -51,5 +51,5 @@ g++ -std=c++11 -static -O2 -lstdc++ -o leveldb-clone-cpp leveldb-clone-cpp.cpp \
  -I ./snappy \
  -DLEVELDB_PLATFORM_POSIX \
  -DHAVE_SNAPPY \
- -ldl -lpthread -lz -lm
+ -ldl -lpthread -lm
  
