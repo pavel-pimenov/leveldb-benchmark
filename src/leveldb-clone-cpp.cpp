@@ -29,7 +29,7 @@ public:
     {
         std::cout << "Stop. count = " << m_pos << std::endl;
     }
-    
+
     void skip()
     {
         m_skip++;
