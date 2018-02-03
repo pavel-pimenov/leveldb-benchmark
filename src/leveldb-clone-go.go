@@ -72,7 +72,7 @@ func main() {
 	iter.Release()
 	err = iter.Error()
 	fmt.Printf("stop level-db count = %d copy %d skip = %d\n", i, copy, skip)
-	timeTrack(start, "end scan")
+	timeTrack(start, "")
 	defer db_old.Close()
 	defer db_new.Close()
 }

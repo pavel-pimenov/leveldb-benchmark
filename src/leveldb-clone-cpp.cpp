@@ -19,7 +19,7 @@ public:
     ~CElapsedSeconds()
     {
         const auto l_end = std::chrono::system_clock::now();
-        std::cout << "[Stop] " <<m_caption << "[ duration: " << std::chrono::duration <double, std::milli> (l_end - m_start).count() << " ms ]" << std::endl;
+        std::cout << "duration: " << std::chrono::duration <double, std::milli> (l_end - m_start).count() << " ms" << std::endl;
     }
     unsigned pos() const
     {
