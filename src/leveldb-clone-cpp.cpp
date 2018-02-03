@@ -38,7 +38,7 @@ public:
     {
         if(++m_pos % 100000 == 0)
         {
-            std::cout << "count = " << m_pos std::endl;
+            std::cout << "count = " << m_pos << std::endl;
         }
     }
 };
