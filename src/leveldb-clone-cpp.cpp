@@ -29,14 +29,14 @@ public:
     {
         std::cout << "Stop. count = " << m_pos << std::endl;
     }
-
+    
     void skip()
     {
         m_skip++;
     }
     void step()
     {
-        if(++m_pos % 100000 == 0)
+        if(++m_pos % 300000 == 0)
         {
             std::cout << "count C++ = " << m_pos << std::endl;
         }

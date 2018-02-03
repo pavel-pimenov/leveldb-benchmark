@@ -50,7 +50,7 @@ func main() {
 	var copy = 0
 	for iter.Next() {
 		i++
-		if i%100000 == 0 {
+		if i%300000 == 0 {
 			fmt.Printf("count Go =  %d\n", i)
 			printMemStats()
 		}
